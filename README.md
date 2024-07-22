@@ -98,7 +98,7 @@ The package provides custom exceptions to handle various Redis-related errors:
 
 - `RedisConnectionError`
 - `RedisSessionCreationError`
-- 
+
 ## Disconnecting
 To gracefully disconnect from the Redis server:
 
