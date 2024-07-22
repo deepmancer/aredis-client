@@ -18,6 +18,15 @@ class RedisConfig(BaseModel):
     db: Optional[int] = Field(default_factory=lambda: env_var("REDIS_DB", 0, int))
     url: Optional[str] = Field(default=None)
 
-    @property
+    def __repr__(self) -> str:
+        attributes = self.dict(exclude={"url"})
+        url = self.url or self.get_url()
+        attributes['url'] = url
+        attributes_str = json.dumps(attributes, indent=4)[1:-1]
+        return f"{self.__class__.__name__}({attributes_str})"
+
+    def __str__(self) -> str:
+        return self.__repr__()
+
     def get_url(self) -> str:
         return self.url or f"redis://{self.host}:{self.port}/{self.db}"
