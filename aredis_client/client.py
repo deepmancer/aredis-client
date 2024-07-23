@@ -1,81 +1,64 @@
 import contextlib
-import threading
 import asyncio
-import redis.asyncio as redis
+import redis.asyncio as aioredis
 from typing import Dict, Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 from .exceptions import RedisConnectionError, RedisSessionCreationError
 from .config import RedisConfig
 
 class AsyncRedis:
     _instances: Dict[str, 'AsyncRedis'] = {}
-    _locks: Dict[str, threading.Lock] = {}
+    _locks: Dict[str, asyncio.Lock] = {}
 
     def __new__(cls, config: RedisConfig, *args, **kwargs) -> 'AsyncRedis':
         url = config.get_url()
         if url not in cls._locks:
-            cls._locks[url] = threading.Lock()
-        with cls._locks[url]:
-            if url not in cls._instances:
-                instance = super().__new__(cls)
-                cls._instances[url] = instance
-            return cls._instances[url]
+            cls._locks[url] = asyncio.Lock()
+        return cls._instances.get(url, None) or super().__new__(cls)
 
     def __init__(self, config: RedisConfig) -> None:
-        if not hasattr(self, 'initialized'):
+        if not hasattr(self, '_initialized') or not self._initialized:
             self._config = config
-            self._redis_client: Optional[redis.Redis] = None
-            self.initialized = True
+            self._redis_client: Optional[aioredis.Redis] = None
+            self._initialized = True
 
-    @staticmethod
-    async def create(
-        config: Optional[RedisConfig] = None,
-        url: Optional[str] = None,
-        host: Optional[str] = None,
-        port: Optional[int] = None,
-        db: Optional[int] = None,
-        **kwargs,
-    ) -> 'AsyncRedis':
+    @classmethod
+    async def create(cls, config: Optional[RedisConfig] = None, **kwargs) -> 'AsyncRedis':
         if config is None:
-            config = RedisConfig(
-                url=url,
-                host=host,
-                port=port,
-                db=db,
-                **kwargs
-            )
-        redis_client = AsyncRedis(config)
+            config = RedisConfig(**kwargs)
+        redis_client = cls(config)
         await redis_client.connect()
         return redis_client
 
-    @property
-    def url(self) -> str:
-        return self._config.get_url()
-
-    @contextlib.asynccontextmanager
-    async def get_or_create_session(self) -> redis.Redis:
-        await self.init()
-        try:
-            yield self._redis_client
-        except Exception as e:
-            raise RedisSessionCreationError(url=self.url) from e
-
     async def connect(self) -> None:
-        await self.init()
-        try:
-            await self._redis_client.ping()
-        except Exception as e:
-            raise RedisConnectionError(url=self.url, message=str(e))
+        if self._redis_client is None:
+            try:
+                self._redis_client = aioredis.Redis(
+                    host=self._config.host,
+                    port=self._config.port,
+                    db=self._config.db,
+                    password=self._config.password,
+                    decode_responses=True,
+                    health_check_interval=30,
+                )
+                await self._redis_client.ping()
+            except Exception as e:
+                raise RedisConnectionError(url=self.url, message=str(e))
 
     async def disconnect(self) -> None:
         if self._redis_client:
             await self._redis_client.close()
             self._redis_client = None
 
-    async def init(self) -> None:
-        if self._redis_client is None:
-            self._redis_client = self._create_redis_client()
+    @contextlib.asynccontextmanager
+    async def get_or_create_session(self) -> aioredis.Redis:
+        await self.connect()
+        try:
+            yield self._redis_client
+        except Exception as e:
+            raise RedisSessionCreationError(url=self.url) from e
 
-    def _create_redis_client(self) -> redis.Redis:
-        return redis.Redis.from_url(self.url, decode_responses=True)
+    @property
+    def url(self) -> str:
+        return self._config.get_url()
