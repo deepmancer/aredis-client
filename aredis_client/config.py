@@ -40,4 +40,6 @@ class RedisConfig(BaseModel):
         return self.__repr__()
 
     def get_url(self) -> str:
-        return self.url or f"redis://{self.host}:{self.port}/{self.db}"
+        if self.password:
+            return f"redis://:{self.password}@{self.host}:{self.port}/{self.db}"
+        return f"redis://{self.host}:{self.port}/{self.db}"
