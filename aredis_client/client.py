@@ -57,7 +57,7 @@ class AsyncRedis:
         try:
             yield self._redis_client
         except Exception as e:
-            raise RedisSessionCreationError(url=self.url) from e
+            raise RedisSessionCreationError(url=self.url, message=str(e))
 
     async def reconnect(self) -> None:
         await self.disconnect()
