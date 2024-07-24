@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="aredis_client",
-    version="0.2.1",
+    version="0.3.0",
     description="Async redis Client is a simple and easy-to-use asynchronous Redis client for Python 3.6+",
     author="Alireza Heidari",
     author_email="alirezaheidari.cs@gmail.com",

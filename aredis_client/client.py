@@ -59,6 +59,10 @@ class AsyncRedis:
         except Exception as e:
             raise RedisSessionCreationError(url=self.url) from e
 
+    async def reconnect(self) -> None:
+        await self.disconnect()
+        await self.connect()
+
     @property
     def url(self) -> str:
         return self._config.get_url()
