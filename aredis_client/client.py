@@ -1,7 +1,7 @@
 import contextlib
 import asyncio
 import redis.asyncio as aioredis
-from typing import Dict, Optional
+from typing import Dict, Optional, AsyncIterator
 from pydantic import BaseModel
 
 from .exceptions import RedisConnectionError, RedisSessionCreationError
@@ -12,24 +12,30 @@ class AsyncRedis:
     _locks: Dict[str, asyncio.Lock] = {}
 
     def __new__(cls, config: RedisConfig, *args, **kwargs) -> 'AsyncRedis':
-        url = config.get_url()
+        url: str = config.get_url()
         if url not in cls._locks:
             cls._locks[url] = asyncio.Lock()
-        return cls._instances.get(url, None) or super().__new__(cls)
+        if url not in cls._instances:
+            cls._instances[url] = super().__new__(cls)
+        return cls._instances[url]
 
     def __init__(self, config: RedisConfig) -> None:
         if not hasattr(self, '_initialized') or not self._initialized:
-            self._config = config
+            self._config: RedisConfig = config
             self._redis_client: Optional[aioredis.Redis] = None
-            self._initialized = True
+            self._initialized: bool = True
 
     @classmethod
     async def create(cls, config: Optional[RedisConfig] = None, **kwargs) -> 'AsyncRedis':
         if config is None:
             config = RedisConfig(**kwargs)
-        redis_client = cls(config)
-        await redis_client.connect()
-        return redis_client
+        url: str = config.get_url()
+        async with cls._locks[url]:
+            if url not in cls._instances:
+                instance = cls(config)
+                await instance.connect()
+                cls._instances[url] = instance
+        return cls._instances[url]
 
     async def connect(self) -> None:
         if self._redis_client is None:
@@ -52,7 +58,7 @@ class AsyncRedis:
             self._redis_client = None
 
     @contextlib.asynccontextmanager
-    async def get_or_create_session(self) -> aioredis.Redis:
+    async def get_or_create_session(self) -> AsyncIterator[aioredis.Redis]:
         await self.connect()
         try:
             yield self._redis_client
