@@ -1,5 +1,7 @@
 from setuptools import setup, find_packages
 
+from install import InstallCommand
+
 setup(
     name="aredis_client",
     version="0.5.1",
@@ -13,6 +15,9 @@ setup(
         "redis",
         "python-decouple",
         "pydantic>=2",
+        " pytest",
+        "pytest-asyncio",
+        "pytest-mock",
     ],
     license='Apache License 2.0',
     keywords="redis async-redis aredis async-client",
@@ -35,5 +40,8 @@ setup(
         "Documentation": "https://github.com/alirezaheidari-cs/aredis-client#readme",
         "Source": "https://github.com/alirezaheidari-cs/aredis-client",
         "Tracker": "https://github.com/alirezaheidari-cs/aredis-client/issues",
+    },
+    cmdclass={
+        'install': InstallCommand,
     },
 )
