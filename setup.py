@@ -4,7 +4,7 @@ from install import InstallCommand
 
 setup(
     name="aredis_client",
-    version="0.5.1",
+    version="0.5.2",
     description="Async redis Client is a simple and easy-to-use asynchronous Redis client for Python 3.6+",
     author="Alireza Heidari",
     author_email="alirezaheidari.cs@gmail.com",
