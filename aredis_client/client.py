@@ -1,11 +1,12 @@
-import contextlib
 import asyncio
-import redis.asyncio as aioredis
+import contextlib
 from typing import Dict, Optional, AsyncIterator
-from pydantic import BaseModel
 
-from .exceptions import RedisConnectionError, RedisSessionCreationError
+import redis.asyncio as aioredis
+
 from .config import RedisConfig
+from .exceptions import RedisConnectionError, RedisSessionCreationError
+
 
 class AsyncRedis:
     _instances: Dict[str, 'AsyncRedis'] = {}

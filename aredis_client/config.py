@@ -1,9 +1,9 @@
 import json
-
 from typing import Optional
 
 from decouple import config
 from pydantic import BaseModel, Field
+
 
 class RedisConfig(BaseModel):
     host: str = Field(default_factory=lambda: config("REDIS_HOST", "localhost"))
