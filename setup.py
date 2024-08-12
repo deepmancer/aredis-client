@@ -8,7 +8,7 @@ setup(
     description="Async redis Client is a simple and easy-to-use asynchronous Redis client for Python 3.6+",
     author="Alireza Heidari",
     author_email="alirezaheidari.cs@gmail.com",
-    url="https://github.com/alirezaheidari-cs/aredis-client",
+    url="https://github.com/deepmancer/aredis-client",
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
@@ -37,9 +37,9 @@ setup(
     ],
     python_requires='>=3.6',
     project_urls={
-        "Documentation": "https://github.com/alirezaheidari-cs/aredis-client#readme",
-        "Source": "https://github.com/alirezaheidari-cs/aredis-client",
-        "Tracker": "https://github.com/alirezaheidari-cs/aredis-client/issues",
+        "Documentation": "https://github.com/deepmancer/aredis-client#readme",
+        "Source": "https://github.com/deepmancer/aredis-client",
+        "Tracker": "https://github.com/deepmancer/aredis-client/issues",
     },
     cmdclass={
         'install': InstallCommand,

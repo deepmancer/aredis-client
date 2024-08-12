@@ -14,7 +14,7 @@
 To install `aredis-client`, use pip:
 
 ```sh
-pip install git+https://github.com/alirezaheidari-cs/aredis-client.git
+pip install git+https://github.com/deepmancer/aredis-client.git
 ```
 
 # Usage
@@ -107,4 +107,4 @@ await redis_client.disconnect()
 ```
 
 # License
-This project is licensed under the Apache License 2.0. See the [LICENSE](https://github.com/alirezaheidari-cs/aredis-client/blob/main/LICENSE) file for more details.
+This project is licensed under the Apache License 2.0. See the [LICENSE](https://github.com/deepmancer/aredis-client/blob/main/LICENSE) file for more details.
