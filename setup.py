@@ -1,6 +1,5 @@
 from setuptools import setup, find_packages
 
-from install import InstallCommand
 
 setup(
     name="aredis_client",
@@ -15,7 +14,7 @@ setup(
         "redis",
         "python-decouple",
         "pydantic>=2",
-        " pytest",
+        "pytest",
         "pytest-asyncio",
         "pytest-mock",
     ],
@@ -40,8 +39,5 @@ setup(
         "Documentation": "https://github.com/deepmancer/aredis-client#readme",
         "Source": "https://github.com/deepmancer/aredis-client",
         "Tracker": "https://github.com/deepmancer/aredis-client/issues",
-    },
-    cmdclass={
-        'install': InstallCommand,
     },
 )

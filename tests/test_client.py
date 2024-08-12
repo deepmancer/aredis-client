@@ -2,7 +2,6 @@ import pytest
 from unittest.mock import AsyncMock, patch, PropertyMock
 from aredis_client.client import AsyncRedis
 from aredis_client.config import RedisConfig
-from aredis_client.exceptions import RedisConnectionError, RedisSessionCreationError
 
 @pytest.mark.asyncio
 @patch('aredis_client.client.AsyncRedis.create', new_callable=AsyncMock)

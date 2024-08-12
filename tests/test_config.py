@@ -1,10 +1,8 @@
-import os
 import pytest
 from decouple import config
 from aredis_client.config import RedisConfig
 
 def test_redis_config_default_values():
-    # Ensure no environment variables override the defaults
     redis_config = RedisConfig()
     assert redis_config.host == config("REDIS_HOST", "localhost")
     assert redis_config.port == int(config("REDIS_PORT", 6379))
