@@ -1,4 +1,10 @@
-# aredis-client
+# Async Redis Client
+
+<p align="center">
+    <img src="https://img.shields.io/badge/Redis-FF4438.svg?style=for-the-badge&logo=Redis&logoColor=white" alt="Redis">
+    <img src="https://img.shields.io/badge/PyPI-3775A9.svg?style=for-the-badge&logo=PyPI&logoColor=white" alt="PyPI">
+    <img src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54" alt="Python">
+</p>
 
 `aredis-client` is a Python package that provides an asynchronous Redis client using `redis-py`. It offers a singleton-based connection pooling mechanism, ensuring efficient and thread-safe Redis operations.
 
