@@ -13,7 +13,7 @@
 
 | **Source Code** | **Website** |
 |:-----------------|:------------|
-| <a href="https://github.com/deepmancer/mongo-motors" target="_blank">github.com/deepmancer/mongo-motors</a> | <a href="https://deepmancer.github.io/mongo-motors/" target="_blank">deepmancer.github.io/mongo-motors</a> |
+| <a href="https://github.com/deepmancer/aredis-client" target="_blank">github.com/deepmancer/aredis-client</a> | <a href="https://deepmancer.github.io/aredis-client/" target="_blank">deepmancer.github.io/aredis-client</a> |
 
 ---
 
