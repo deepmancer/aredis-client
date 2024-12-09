@@ -4,9 +4,16 @@
     <img src="https://img.shields.io/badge/Redis-FF4438.svg?style=for-the-badge&logo=Redis&logoColor=white" alt="Redis">
     <img src="https://img.shields.io/badge/PyPI-3775A9.svg?style=for-the-badge&logo=PyPI&logoColor=white" alt="PyPI">
     <img src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54" alt="Python">
+    <img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=for-the-badge" alt="License">
 </p>
 
 **`aredis-client`** is your go-to Python package for seamless asynchronous Redis interactions, powered by `redis-py`. With its singleton-based connection pooling, it ensures efficient, thread-safe operations, making your Redis experience faster and easier.
+
+---
+
+| **Source Code** | **Website** |
+|:-----------------|:------------|
+| <a href="https://github.com/deepmancer/mongo-motors" target="_blank">github.com/deepmancer/mongo-motors</a> | <a href="https://deepmancer.github.io/mongo-motors/" target="_blank">deepmancer.github.io/mongo-motors</a> |
 
 ---
 
